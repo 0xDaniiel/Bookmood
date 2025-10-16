@@ -11,5 +11,3 @@ Just swipe through mood cards — “Lost”, “Curious”, “Inspired”, “
 - 🎨 **Clean, minimal UI** – Built with Next.js + Tailwind CSS.
 - ⚡ **Fast API** – Express.js backend handles mood-to-book lookups.
 - 🌐 **No database needed** – Books are fetched dynamically from APIs.
-
-Test
