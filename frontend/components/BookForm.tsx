@@ -1,7 +1,7 @@
-"use client";
-import { useState } from "react";
+import { genres, formats, languages, lengths } from "@/data/data";
 import SwipeMood from "./SwipeMood";
 import Loader from "./Loader";
+import { useState } from "react";
 
 const BookForm = () => {
   const [genre, setGenre] = useState("");
@@ -36,11 +36,11 @@ const BookForm = () => {
           onChange={(e) => setGenre(e.target.value)}
         >
           <option value="">Select Genre</option>
-          <option value="fiction">Fiction</option>
-          <option value="nonfiction">Non-Fiction</option>
-          <option value="romance">Romance</option>
-          <option value="thriller">Thriller</option>
-          <option value="selfhelp">Self-Help</option>
+          {genres.map((g) => (
+            <option key={g.value} value={g.value}>
+              {g.label}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -55,8 +55,11 @@ const BookForm = () => {
           onChange={(e) => setFormat(e.target.value)}
         >
           <option value="">Select Format</option>
-          <option value="ebooks">Ebook</option>
-          <option value="audiobooks">Audiobook</option>
+          {formats.map((f) => (
+            <option key={f.value} value={f.value}>
+              {f.label}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -70,13 +73,14 @@ const BookForm = () => {
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
         >
-          <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
+          {languages.map((l) => (
+            <option key={l.value} value={l.value}>
+              {l.label}
+            </option>
+          ))}
         </select>
       </div>
 
-      {/* SwipeMood */}
       <div className="w-full max-w-md mb-6">
         <SwipeMood />
       </div>
@@ -92,13 +96,14 @@ const BookForm = () => {
           onChange={(e) => setLength(e.target.value)}
         >
           <option value="">Select Length</option>
-          <option value="short">Short Reads</option>
-          <option value="medium">Medium</option>
-          <option value="long">Long</option>
+          {lengths.map((l) => (
+            <option key={l.value} value={l.value}>
+              {l.label}
+            </option>
+          ))}
         </select>
       </div>
 
-      {/* Submit Button */}
       <button
         type="submit"
         disabled={loading}
