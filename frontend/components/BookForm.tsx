@@ -1,4 +1,4 @@
-import { genres, formats, languages, lengths } from "@/data/data";
+import { genres, formats, languages, lengths } from "@/data/option";
 import SwipeMood from "./SwipeMood";
 import Loader from "./Loader";
 import { useState } from "react";
