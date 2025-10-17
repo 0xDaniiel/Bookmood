@@ -1,11 +1,42 @@
+"use client";
+
 import { genres, formats, languages, lengths } from "@/data/option";
-import SwipeMood from "./SwipeMood";
 import Loader from "./Loader";
 import { useState } from "react";
 
 interface BookFormProps {
   selectedMood?: string;
 }
+
+const SelectField = ({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: { label: string; value: string }[];
+  value: string;
+  onChange: (val: string) => void;
+}) => (
+  <div>
+    <label className="block text-sm font-medium mb-1 text-[#4B2E05]">
+      {label}
+    </label>
+    <select
+      className="w-full p-2 rounded-lg border border-amber-200 bg-white text-[#4B2E05]"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    >
+      <option value="">{`Select ${label}`}</option>
+      {options.map((opt) => (
+        <option key={opt.value} value={opt.value}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  </div>
+);
 
 const BookForm = ({ selectedMood }: BookFormProps) => {
   const [genre, setGenre] = useState("");
@@ -27,8 +58,12 @@ const BookForm = ({ selectedMood }: BookFormProps) => {
         language,
         length,
       });
+      // You can trigger real API fetch here
     }, 2000);
   };
+
+  const capitalize = (str: string) =>
+    str.charAt(0).toUpperCase() + str.slice(1);
 
   return (
     <form
@@ -39,85 +74,35 @@ const BookForm = ({ selectedMood }: BookFormProps) => {
         <div className="text-center mb-4">
           <p className="text-[#4B2E05]/70 text-sm">
             Mood selected:{" "}
-            <span className="font-semibold capitalize">{selectedMood}</span>
+            <span className="font-semibold">{capitalize(selectedMood)}</span>
           </p>
         </div>
       )}
 
-      {/* Genre */}
-      <div>
-        <label className="block text-sm font-medium mb-1 text-[#4B2E05]">
-          Preferred Genre
-        </label>
-        <select
-          className="w-full p-2 rounded-lg border border-amber-200 bg-white text-[#4B2E05]"
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
-        >
-          <option value="">Select Genre</option>
-          {genres.map((g) => (
-            <option key={g.value} value={g.value}>
-              {g.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Format */}
-      <div>
-        <label className="block text-sm font-medium mb-1 text-[#4B2E05]">
-          Format
-        </label>
-        <select
-          className="w-full p-2 rounded-lg border border-amber-200 bg-white text-[#4B2E05]"
-          value={format}
-          onChange={(e) => setFormat(e.target.value)}
-        >
-          <option value="">Select Format</option>
-          {formats.map((f) => (
-            <option key={f.value} value={f.value}>
-              {f.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Language */}
-      <div>
-        <label className="block text-sm font-medium mb-1 text-[#4B2E05]">
-          Language
-        </label>
-        <select
-          className="w-full p-2 rounded-lg border border-amber-200 bg-white text-[#4B2E05]"
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-        >
-          {languages.map((l) => (
-            <option key={l.value} value={l.value}>
-              {l.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Length */}
-      <div>
-        <label className="block text-sm font-medium mb-1 text-[#4B2E05]">
-          Preferred Length
-        </label>
-        <select
-          className="w-full p-2 rounded-lg border border-amber-200 bg-white text-[#4B2E05]"
-          value={length}
-          onChange={(e) => setLength(e.target.value)}
-        >
-          <option value="">Select Length</option>
-          {lengths.map((l) => (
-            <option key={l.value} value={l.value}>
-              {l.label}
-            </option>
-          ))}
-        </select>
-      </div>
+      <SelectField
+        label="Preferred Genre"
+        options={genres}
+        value={genre}
+        onChange={setGenre}
+      />
+      <SelectField
+        label="Format"
+        options={formats}
+        value={format}
+        onChange={setFormat}
+      />
+      <SelectField
+        label="Language"
+        options={languages}
+        value={language}
+        onChange={setLanguage}
+      />
+      <SelectField
+        label="Preferred Length"
+        options={lengths}
+        value={length}
+        onChange={setLength}
+      />
 
       <button
         type="submit"
