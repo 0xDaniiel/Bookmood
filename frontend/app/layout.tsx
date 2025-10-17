@@ -27,9 +27,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.className} `}>
-      <body className="min-h-screen bg-amber-100 text-[#4B2E05] font-[var(--font-inter)] antialiased">
-        <main className="max-w-3xl mx-auto px-6 py-10">{children}</main>
+    <html lang="en" className={`${poppins.className}`}>
+      <body className="min-h-screen bg-[#FAE8B8] text-[#4B2E05] font-[var(--font-inter)] antialiased">
+        <main className="max-w-7xl mx-auto px-6 py-10">{children}</main>
       </body>
     </html>
   );

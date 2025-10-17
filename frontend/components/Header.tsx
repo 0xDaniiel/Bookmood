@@ -14,7 +14,7 @@ const Header = () => {
         BookMood 📚
       </motion.h1>
       <p className="text-base sm:text-lg md:text-xl mb-8 max-w-md sm:max-w-lg mx-auto text-[#4B2E05]/90 leading-relaxed">
-        Discover books that feel just like you.
+        Let your mood pick your next read.
         <span className="block text-sm sm:text-base md:text-lg text-[#4B2E05]/70 italic">
           Every mood has a story.
         </span>

@@ -3,32 +3,35 @@
 import { motion } from "framer-motion";
 
 const ButterflyBackground = () => {
-  const butterflies = Array.from({ length: 15 });
+  const butterflies = Array.from({ length: 12 });
+  const colors = ["#FFD166", "#FAE8B8", "#FFE7C4", "#EED9B2"];
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {butterflies.map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-2 h-2 bg-amber-200 rounded-full shadow-lg"
+          className="absolute text-2xl"
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            color: colors[i % colors.length],
+          }}
           animate={{
-            x: [0, Math.random() * 800 - 400],
-            y: [0, Math.random() * 600 - 300],
-            opacity: [0.2, 1, 0.2],
-            scale: [0.8, 1.4, 0.8],
+            x: [0, Math.random() * 200 - 100, 0],
+            y: [0, Math.random() * 150 - 75, 0],
+            rotate: [0, 15, -15, 0],
+            scale: [0.8, 1.2, 0.8],
           }}
           transition={{
-            duration: 10 + Math.random() * 10,
+            duration: 8 + Math.random() * 6,
             repeat: Infinity,
             repeatType: "mirror",
             ease: "easeInOut",
           }}
-          style={{
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            filter: "blur(2px)",
-          }}
-        />
+        >
+          🦋
+        </motion.div>
       ))}
     </div>
   );
