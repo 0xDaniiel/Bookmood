@@ -1,45 +1,85 @@
-import { motion } from "framer-motion";
+"use client";
+import { motion, useAnimation } from "framer-motion";
 import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 interface MoodCardProps {
   emoji: string;
   title: string;
   desc: string;
+  color: string;
   onSwipe: (direction: "left" | "right") => void;
 }
 
-const MoodCard: React.FC<MoodCardProps> = ({ emoji, title, desc, onSwipe }) => {
+const MoodCard: React.FC<MoodCardProps> = ({
+  emoji,
+  title,
+  desc,
+  color,
+  onSwipe,
+}) => {
   const router = useRouter();
+  const controls = useAnimation();
 
   const handleSelectMood = () => {
-    const selectedMood = title.toLowerCase();
-    router.push(`/bookform?mood=${selectedMood}`);
+    router.push(`/bookform?mood=${title.toLowerCase()}`);
   };
+
+  const handleDragEnd = async (_: any, info: any) => {
+    if (info.offset.x > 100) {
+      await controls.start({
+        x: 500,
+        rotate: 20,
+        opacity: 0,
+        transition: { type: "spring", stiffness: 300, damping: 20 },
+      });
+      onSwipe("right");
+    } else if (info.offset.x < -100) {
+      await controls.start({
+        x: -500,
+        rotate: -20,
+        opacity: 0,
+        transition: { type: "spring", stiffness: 300, damping: 20 },
+      });
+      onSwipe("left");
+    } else {
+      controls.start({
+        x: 0,
+        rotate: 0,
+        transition: { type: "spring", stiffness: 300, damping: 20 },
+      });
+    }
+  };
+
+  useEffect(() => {
+    controls.start({
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 200, damping: 20 },
+    });
+  }, [controls]);
 
   return (
     <motion.div
-      className="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-6 w-80 text-center border border-amber-200"
+      className="backdrop-blur-md shadow-xl rounded-2xl p-6 w-80 text-center cursor-grab border border-amber-200"
+      style={{ backgroundColor: color }}
       drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={1}
-      onDragEnd={(e, info) => {
-        if (info.offset.x > 100) onSwipe("right");
-        if (info.offset.x < -100) onSwipe("left");
-      }}
-      whileTap={{ scale: 0.97 }}
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.3 }}
+      dragElastic={0.8}
+      onDragEnd={handleDragEnd}
+      animate={controls}
+      initial={{ opacity: 0, scale: 0.95, y: 50 }}
+      exit={{ opacity: 0, scale: 0.9, y: -50 }}
+      whileTap={{ scale: 0.97, cursor: "grabbing" }}
     >
       <div className="text-5xl mb-2">{emoji}</div>
       <h3 className="text-xl font-semibold text-[#4B2E05]">{title}</h3>
       <p className="text-sm text-[#6B4E1F] mt-2">{desc}</p>
-      <p className="text-xs text-[#A67C52] mt-4 italic">Swipe </p>
+      <p className="text-xs text-[#A67C52] mt-4 italic">Swipe left or right</p>
 
       <button
         onClick={handleSelectMood}
-        className="mt-6 px-5 py-2 bg-[#4B2E05] text-amber-50 rounded-lg font-semibold shadow-md hover:bg-[#3B2404] hover:cursor-pointer  cursor-pointer  transition"
+        className="mt-6 px-5 py-2 bg-[#4B2E05] text-amber-50 rounded-lg font-semibold shadow-md hover:bg-[#3B2404] cursor-pointer hover:cursor-pointer  transition"
       >
         Select Mood
       </button>
