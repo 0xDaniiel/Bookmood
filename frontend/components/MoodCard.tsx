@@ -1,34 +1,35 @@
-"use client";
-
-import React from "react";
-import TinderCard from "react-tinder-card";
 import { motion } from "framer-motion";
 
 interface MoodCardProps {
-  mood: {
-    name: string;
-    emoji: string;
-    desc: string;
-  };
-  onSwipe: (direction: string, mood: string) => void;
+  emoji: string;
+  title: string;
+  desc: string;
+  onSwipe: (direction: "left" | "right") => void;
 }
 
-export default function MoodCard({ mood, onSwipe }: MoodCardProps) {
+const MoodCard: React.FC<MoodCardProps> = ({ emoji, title, desc, onSwipe }) => {
   return (
-    <TinderCard
-      className="absolute"
-      key={mood.name}
-      onSwipe={(dir) => onSwipe(dir, mood.name)}
-      preventSwipe={["up", "down"]}
+    <motion.div
+      className="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-6 w-80 text-center border border-amber-200"
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={1}
+      onDragEnd={(e, info) => {
+        if (info.offset.x > 100) onSwipe("right");
+        if (info.offset.x < -100) onSwipe("left");
+      }}
+      whileTap={{ scale: 0.97 }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -50 }}
+      transition={{ duration: 0.3 }}
     >
-      <motion.div
-        className="bg-white rounded-2xl shadow-lg w-80 h-96 flex flex-col items-center justify-center text-center p-6"
-        whileHover={{ scale: 1.03 }}
-      >
-        <div className="text-6xl mb-4">{mood.emoji}</div>
-        <h2 className="text-2xl font-semibold">{mood.name}</h2>
-        <p className="text-gray-600 mt-2">{mood.desc}</p>
-      </motion.div>
-    </TinderCard>
+      <div className="text-5xl mb-2">{emoji}</div>
+      <h3 className="text-xl font-semibold text-[#4B2E05]">{title}</h3>
+      <p className="text-sm text-[#6B4E1F] mt-2">{desc}</p>
+      <p className="text-xs text-[#A67C52] mt-4 italic">Swipe → or ←</p>
+    </motion.div>
   );
-}
+};
+
+export default MoodCard;
