@@ -3,7 +3,11 @@ import SwipeMood from "./SwipeMood";
 import Loader from "./Loader";
 import { useState } from "react";
 
-const BookForm = () => {
+interface BookFormProps {
+  selectedMood?: string;
+}
+
+const BookForm = ({ selectedMood }: BookFormProps) => {
   const [genre, setGenre] = useState("");
   const [format, setFormat] = useState("");
   const [language, setLanguage] = useState("en");
@@ -16,7 +20,13 @@ const BookForm = () => {
 
     setTimeout(() => {
       setLoading(false);
-      console.log({ genre, format, language, length });
+      console.log({
+        mood: selectedMood,
+        genre,
+        format,
+        language,
+        length,
+      });
     }, 2000);
   };
 
@@ -25,6 +35,15 @@ const BookForm = () => {
       onSubmit={handleSubmit}
       className="bg-amber-50 shadow-lg rounded-2xl p-6 w-full max-w-md space-y-4"
     >
+      {selectedMood && (
+        <div className="text-center mb-4">
+          <p className="text-[#4B2E05]/70 text-sm">
+            Mood selected:{" "}
+            <span className="font-semibold capitalize">{selectedMood}</span>
+          </p>
+        </div>
+      )}
+
       {/* Genre */}
       <div>
         <label className="block text-sm font-medium mb-1 text-[#4B2E05]">
@@ -79,10 +98,6 @@ const BookForm = () => {
             </option>
           ))}
         </select>
-      </div>
-
-      <div className="w-full max-w-md mb-6">
-        <SwipeMood />
       </div>
 
       {/* Length */}

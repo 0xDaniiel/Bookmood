@@ -1,8 +1,8 @@
-import HomePage from "@/components/HomePage";
+import BookPreferencePage from "@/components/BookPreferencePage";
 import React from "react";
 
 const page = () => {
-  return <HomePage />;
+  return <BookPreferencePage />;
 };
 
 export default page;

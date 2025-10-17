@@ -1,14 +1,15 @@
+"use client";
+
 import MoodSwipeDeck from "@/components/MoodSwipeDeck";
 import ButterflyBackground from "@/components/ButterflyBackground";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
-    <main className="relative h-screen flex items-center justify-center bg-gradient-to-br from-amber-100 via-amber-50 to-rose-100 overflow-hidden">
+    <main className="relative min-h-screen flex flex-col items-center justify-between bg-gradient-to-b from-amber-100 via-[#FAE8B8] to-[#EED9B2] text-[#4B2E05] overflow-hidden px-4">
       <ButterflyBackground />
-      <div className="z-10">
-        <h1 className="text-4xl font-bold text-[#4B2E05] mb-6 text-center">
-          How are you feeling today? 🌙
-        </h1>
+      <Header />
+      <div className="flex-1 flex items-center justify-center -mt-20">
         <MoodSwipeDeck />
       </div>
     </main>
