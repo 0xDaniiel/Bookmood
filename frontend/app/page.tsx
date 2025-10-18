@@ -12,13 +12,13 @@ export default function Home() {
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute text-[#B08B57]/20 text-4xl"
+            className="absolute text-[#4B2E05]/30 text-4xl"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
               rotate: `${Math.random() * 360}deg`,
             }}
-            animate={{ opacity: [0.1, 0.2, 0.1] }}
+            animate={{ opacity: [0.1, 0.25, 0.1] }}
             transition={{ repeat: Infinity, duration: 6 + Math.random() * 4 }}
           >
             📚
@@ -34,8 +34,9 @@ export default function Home() {
         <MoodSwipeDeck />
       </div>
 
-      <p className="mt-6 text-center text-[#6B4E1F]/80 italic max-w-md">
-        "Swipe through your mood to find the perfect book for today."
+      <p className="mt-2 text-center text-[#6B4E1F]/80 italic max-w-md">
+        &ldquo;Swipe through your mood to find the perfect book for
+        today.&ldquo;
       </p>
     </main>
   );

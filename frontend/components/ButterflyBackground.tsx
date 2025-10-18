@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 const ButterflyBackground = () => {
-  const butterflies = Array.from({ length: 12 });
+  const butterflies = Array.from({ length: 17 });
   const colors = ["#FFD166", "#FAE8B8", "#FFE7C4", "#EED9B2"];
 
   return (

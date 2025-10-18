@@ -1,5 +1,5 @@
 "use client";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, PanInfo } from "framer-motion";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -25,23 +25,25 @@ const MoodCard: React.FC<MoodCardProps> = ({
     router.push(`/bookform?mood=${title.toLowerCase()}`);
   };
 
-  const handleDragEnd = async (_: any, info: any) => {
+  const handleDragEnd = (_: unknown, info: PanInfo) => {
     if (info.offset.x > 100) {
-      await controls.start({
-        x: 500,
-        rotate: 20,
-        opacity: 0,
-        transition: { type: "spring", stiffness: 300, damping: 20 },
-      });
-      onSwipe("right");
+      controls
+        .start({
+          x: 500,
+          rotate: 20,
+          opacity: 0,
+          transition: { type: "spring", stiffness: 300, damping: 20 },
+        })
+        .then(() => onSwipe("right"));
     } else if (info.offset.x < -100) {
-      await controls.start({
-        x: -500,
-        rotate: -20,
-        opacity: 0,
-        transition: { type: "spring", stiffness: 300, damping: 20 },
-      });
-      onSwipe("left");
+      controls
+        .start({
+          x: -500,
+          rotate: -20,
+          opacity: 0,
+          transition: { type: "spring", stiffness: 300, damping: 20 },
+        })
+        .then(() => onSwipe("left"));
     } else {
       controls.start({
         x: 0,
@@ -79,7 +81,7 @@ const MoodCard: React.FC<MoodCardProps> = ({
 
       <button
         onClick={handleSelectMood}
-        className="mt-6 px-5 py-2 bg-[#4B2E05] text-amber-50 rounded-lg font-semibold shadow-md hover:bg-[#3B2404] cursor-pointer hover:cursor-pointer  transition"
+        className="mt-6 px-5 py-2 bg-[#4B2E05] text-amber-50 rounded-lg font-semibold shadow-md hover:bg-[#3B2404] cursor-pointer transition"
       >
         Select Mood
       </button>

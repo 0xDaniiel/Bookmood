@@ -1,5 +1,7 @@
-import BookPreferencePage from "@/components/BookPreferencePage";
+"use client";
+
 import React from "react";
+import BookPreferencePage from "@/components/BookPreferencePage";
 
 const page = () => {
   return <BookPreferencePage />;
