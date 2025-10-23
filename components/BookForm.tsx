@@ -68,7 +68,7 @@ const BookForm = ({ selectedMood }: BookFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-amber-50 shadow-lg rounded-2xl p-6 w-full max-w-md space-y-4"
+      className="bg-amber-50 shadow-lg rounded-2xl p-6 w-full max-w-md space-y-4 text-left"
     >
       {selectedMood && (
         <div className="text-center mb-4">

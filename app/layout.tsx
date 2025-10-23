@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Swipe through moods and get personalized book suggestions that match how you feel. Built with Next.js and Express.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/images/bookmood.webp",
   },
   openGraph: {
     title: "BookMood",
@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${poppins.className}`}>
-      <body className="min-h-screen bg-[#FAE8B8] text-[#4B2E05] font-[var(--font-inter)] antialiased">
+      <body className="min-h-screen bg-[#FAE8B8] text-[#4B2E05]  antialiased">
         <main className="max-w-7xl mx-auto px-6 py-10">{children}</main>
       </body>
     </html>
