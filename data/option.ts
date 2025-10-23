@@ -1,12 +1,12 @@
-export const genres = [
-  { label: "Fiction", value: "fiction" },
-  { label: "Non-Fiction", value: "nonfiction" },
-  { label: "Thriller", value: "thriller" },
-  { label: "Self-Help", value: "selfhelp" },
-  { label: "Philosophy", value: "philosophy" },
-  { label: "Romance", value: "romance" },
-  { label: "Adventure", value: "adventure" },
-];
+// export const genres = [
+//   { label: "Fiction", value: "fiction" },
+//   { label: "Non-Fiction", value: "nonfiction" },
+//   { label: "Thriller", value: "thriller" },
+//   { label: "Self-Help", value: "selfhelp" },
+//   { label: "Philosophy", value: "philosophy" },
+//   { label: "Romance", value: "romance" },
+//   { label: "Adventure", value: "adventure" },
+// ];
 
 export const languages = [
   { label: "English", value: "en" },

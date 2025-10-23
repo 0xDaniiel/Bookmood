@@ -6,36 +6,34 @@ const GOOGLE_BOOKS_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
 export async function POST(req) {
   try {
     const data = await req.json();
-    const { mood, genre, language, printType, orderBy, filter } = data;
+    const { mood, language, format, type } = data;
 
-    // 1️⃣ Find mood keywords
+    // Match mood with keywords from /data/mood.ts
     const selectedMood = moods.find((m) => m.title === mood);
-    const moodKeywords = selectedMood?.keywords || mood;
+    const moodKeywords = selectedMood?.keywords || mood || "books";
 
-    // 2️⃣ Build main query: mood + genre combo
-    let q = `${moodKeywords}`;
-    if (genre) q += `+${genre}`;
-    q = q.replace(/\s+/g, "+").trim();
+    // Build main query (using only mood keywords)
+    let q = moodKeywords.replace(/\s+/g, "+").trim();
 
-    // 3️⃣ Build URL parameters
+    // Build URL params
     const params = new URLSearchParams({
       q,
       langRestrict: language || "en",
       maxResults: "12",
     });
 
-    if (printType && printType !== "any") params.set("printType", printType);
-    if (orderBy) params.set("orderBy", orderBy);
-    if (filter && filter !== "none") params.set("filter", filter);
+    if (format && format !== "any") params.set("printType", format);
+    if (type === "free") params.set("filter", "free-ebooks");
+    if (type === "paid") params.set("filter", "paid-ebooks");
 
-    // 4️⃣ Fetch books
+    // Fetch from Google Books
     let res = await fetch(`${GOOGLE_BOOKS_BASE_URL}?${params.toString()}`);
     let result = await res.json();
 
-    // 5️⃣ Retry with broader query if nothing found
-    if (!result.items?.length && genre) {
+    // Fallback — broader search if nothing found
+    if (!result.items?.length && moodKeywords) {
       const fallbackParams = new URLSearchParams({
-        q: moodKeywords,
+        q: mood,
         langRestrict: language || "en",
         maxResults: "12",
       });
@@ -45,7 +43,6 @@ export async function POST(req) {
       result = await res.json();
     }
 
-    // 6️⃣ Map results
     const books =
       result.items?.map((item) => ({
         id: item.id,

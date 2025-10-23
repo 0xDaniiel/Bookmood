@@ -1,6 +1,6 @@
 "use client";
 import {
-  genres,
+  // genres,
   languages,
   printTypes,
   orderByOptions,
@@ -47,7 +47,7 @@ const SelectField = ({ label, options, value, onChange }: SelectFieldProps) => (
 );
 
 const BookForm = ({ selectedMood }: BookFormProps) => {
-  const [genre, setGenre] = useState("");
+  // const [genre, setGenre] = useState("");
   const [language, setLanguage] = useState("en");
   const [printType, setPrintType] = useState("");
   const [orderBy, setOrderBy] = useState("relevance");
@@ -64,7 +64,7 @@ const BookForm = ({ selectedMood }: BookFormProps) => {
 
     const params = new URLSearchParams({
       mood: selectedMood || "",
-      genre,
+      // genre,
       language,
       printType,
       orderBy,
@@ -89,12 +89,12 @@ const BookForm = ({ selectedMood }: BookFormProps) => {
         </div>
       )}
 
-      <SelectField
+      {/* <SelectField
         label="Preferred Genre"
         options={genres}
         value={genre}
         onChange={setGenre}
-      />
+      /> */}
 
       <SelectField
         label="Language"
@@ -127,7 +127,7 @@ const BookForm = ({ selectedMood }: BookFormProps) => {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-[#4B2E05] text-amber-50 py-2 rounded-lg font-semibold hover:bg-[#3B2404] transition flex items-center justify-center gap-2"
+        className="w-full bg-[#4B2E05] text-amber-50 py-2 rounded-lg font-semibold hover:bg-[#3B2404] cursor-pointer transition flex items-center justify-center gap-2"
       >
         {loading ? (
           <>

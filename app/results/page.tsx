@@ -9,7 +9,7 @@ interface Book {
   id: string;
   title: string;
   author: string;
-  genre: string;
+  //   genre: string;
   language: string;
   thumbnail: string;
   moodMatch?: number;
@@ -20,12 +20,11 @@ const ResultsPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Get parameters from query string
+  // Query params
   const mood = searchParams.get("mood") || "";
-  const genre = searchParams.get("genre") || "";
   const language = searchParams.get("language") || "en";
   const format = searchParams.get("format") || "book";
-  const type = searchParams.get("type") || "any"; // free, paid, any
+  const type = searchParams.get("type") || "any";
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -36,17 +35,14 @@ const ResultsPage = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             mood,
-            genre,
             language,
             format,
             type,
           }),
         });
 
-        // Handle unexpected text/HTML responses
         const text = await res.text();
         const data = JSON.parse(text);
-
         setBooks(data.books || []);
       } catch (err) {
         console.error("Failed to fetch books:", err);
@@ -57,9 +53,8 @@ const ResultsPage = () => {
     };
 
     fetchBooks();
-  }, [mood, genre, language, format, type]);
+  }, [mood, language, format, type]);
 
-  // 🌀 Loading State
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -68,7 +63,6 @@ const ResultsPage = () => {
     );
   }
 
-  // ❌ No Books Found
   if (!books.length) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center px-6">
@@ -76,13 +70,12 @@ const ResultsPage = () => {
           No books found
         </h2>
         <p className="text-[#6B4E1F]/90">
-          Try adjusting your mood, genre, or filters to get better matches.
+          Try adjusting your mood, language, or filters to get better matches.
         </p>
       </div>
     );
   }
 
-  // ✅ Display Books
   return (
     <div className="min-h-screen p-6 flex flex-col items-center">
       <h2 className="text-2xl font-semibold text-[#4B2E05] mb-6">
@@ -93,29 +86,23 @@ const ResultsPage = () => {
         {books.map((book) => (
           <div
             key={book.id}
-            className="bg-white rounded-2xl shadow-lg p-4 flex flex-col items-center text-center"
+            className="bg-[#FBE4B2] rounded-2xl shadow-md hover:shadow-xl p-4 flex flex-col items-center text-center transition-all duration-200 hover:scale-[1.02]"
           >
             <Image
-              src={book.thumbnail || "/placeholder-book.png"}
+              src={book.thumbnail}
               alt={book.title}
               width={128}
               height={192}
-              className="w-32 h-48 object-cover rounded-lg mb-4"
+              className="w-32 h-48 object-cover rounded-lg mb-4 border-2 border-amber-200"
             />
 
             <h3 className="font-semibold text-[#4B2E05]">{book.title}</h3>
             <p className="text-sm text-[#6B4E1F]/90 mb-1">
               {book.author || "Unknown Author"}
             </p>
-            <p className="text-xs text-[#6B4E1F]/70">
+            {/* <p className="text-xs text-[#6B4E1F]/70">
               {book.genre || "General"} | {book.language?.toUpperCase()}
-            </p>
-
-            {book.moodMatch && (
-              <p className="text-xs text-[#4B2E05]/70 mt-1">
-                🎯 Mood match: {Math.round(book.moodMatch * 100)}%
-              </p>
-            )}
+            </p> */}
           </div>
         ))}
       </div>
