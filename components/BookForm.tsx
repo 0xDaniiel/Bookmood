@@ -1,24 +1,32 @@
 "use client";
-
-import { genres, formats, languages, lengths } from "@/data/option";
+import {
+  genres,
+  languages,
+  printTypes,
+  orderByOptions,
+  availability,
+} from "@/data/option";
 import Loader from "./Loader";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+interface SelectOption {
+  label: string;
+  value: string;
+}
 
 interface BookFormProps {
   selectedMood?: string;
 }
 
-const SelectField = ({
-  label,
-  options,
-  value,
-  onChange,
-}: {
+interface SelectFieldProps {
   label: string;
-  options: { label: string; value: string }[];
+  options: SelectOption[];
   value: string;
   onChange: (val: string) => void;
-}) => (
+}
+
+const SelectField = ({ label, options, value, onChange }: SelectFieldProps) => (
   <div>
     <label className="block text-sm font-medium mb-1 text-[#4B2E05]">
       {label}
@@ -40,30 +48,32 @@ const SelectField = ({
 
 const BookForm = ({ selectedMood }: BookFormProps) => {
   const [genre, setGenre] = useState("");
-  const [format, setFormat] = useState("");
   const [language, setLanguage] = useState("en");
-  const [length, setLength] = useState("");
+  const [printType, setPrintType] = useState("");
+  const [orderBy, setOrderBy] = useState("relevance");
+  const [filter, setFilter] = useState("none");
   const [loading, setLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      console.log({
-        mood: selectedMood,
-        genre,
-        format,
-        language,
-        length,
-      });
-      // You can trigger real API fetch here
-    }, 2000);
-  };
+  const router = useRouter();
 
   const capitalize = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const params = new URLSearchParams({
+      mood: selectedMood || "",
+      genre,
+      language,
+      printType,
+      orderBy,
+      filter,
+    });
+
+    router.push(`/results?${params.toString()}`);
+    setLoading(false);
+  };
 
   return (
     <form
@@ -85,23 +95,33 @@ const BookForm = ({ selectedMood }: BookFormProps) => {
         value={genre}
         onChange={setGenre}
       />
-      <SelectField
-        label="Format"
-        options={formats}
-        value={format}
-        onChange={setFormat}
-      />
+
       <SelectField
         label="Language"
         options={languages}
         value={language}
         onChange={setLanguage}
       />
+
       <SelectField
-        label="Preferred Length"
-        options={lengths}
-        value={length}
-        onChange={setLength}
+        label="Print Type"
+        options={printTypes}
+        value={printType}
+        onChange={setPrintType}
+      />
+
+      <SelectField
+        label="Order By"
+        options={orderByOptions}
+        value={orderBy}
+        onChange={setOrderBy}
+      />
+
+      <SelectField
+        label="Availability"
+        options={availability}
+        value={filter}
+        onChange={setFilter}
       />
 
       <button
