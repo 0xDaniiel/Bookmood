@@ -9,7 +9,7 @@ const MoodSwipeDeck = () => {
   const [index, setIndex] = useState(0);
 
   const handleSwipe = (_direction: "left" | "right") => {
-    setIndex((prev) => (prev + 1) % moods.length); // infinite loop
+    setIndex((prev) => (prev + 1) % moods.length);
   };
 
   const getNextCards = (start: number, count: number) => {
